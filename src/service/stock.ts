@@ -48,3 +48,19 @@ export async function listStocks(){
     }
       
 }
+
+export async function getById(id:string) {
+    try{
+        const stock = await StockModel.findOne({id:id})
+        if(stock !=null){
+            return stock
+        }
+
+        else{
+            return "Stock not found"
+        }   
+    }
+    catch(error){
+        throw error
+    }
+}

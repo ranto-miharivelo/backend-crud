@@ -12,6 +12,16 @@ export const list = async (req: Request, res: Response) => {
     }
 }
 
+export const getById = async(req:Request, res: Response)=>{
+    try {
+        const stock = await stocksServices.getById(req.params.id)
+        res.status(200).send(stock)
+    }
+    catch(error){
+        return res.status(500).send(getErrorMessage(error));
+    }
+}
+
 export const upsertStock = async (req: Request, res: Response)=>{
     try {
         console.log(req.body)
