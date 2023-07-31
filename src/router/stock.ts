@@ -5,7 +5,8 @@ import {auth} from '../middleware/auth'
 const stockRouter = Router()
 
 stockRouter.get("/list", stockController.list)
-stockRouter.post("/delete", stockController.deleteStock)
-stockRouter.post("/upsert", stockController.upsertStock)
+stockRouter.post("/delete",auth, stockController.deleteStock)
+stockRouter.post("/upsert", auth,stockController.upsertStock)
+stockRouter.get("/:id", stockController.getById)
 
 export default stockRouter

@@ -6,13 +6,15 @@ dotenv.config()
 
 export async function upsertStock(stock: IStock) {
     try{
-        const foundStock = await StockModel.findOneAndUpdate({name: stock.name})
+        const foundStock = await StockModel.findOne({name: stock.name})
 
         if(foundStock){
+            console.log("Updating stock")
            const updatedStock = await StockModel.updateOne({name: stock.name}, stock)
            return updatedStock
         }
         else{
+            console.log("newStock")
             const newStock = await StockModel.create(stock)
             return newStock
 
@@ -25,7 +27,11 @@ export async function upsertStock(stock: IStock) {
 
 export async function deleteStock(stock: IStock){
     try{
-        const deleteState = await StockModel.findOneAndDelete({name: stock.name})
+        console.log("Auth passed")
+        const del = await StockModel.deleteOne({name: stock.name})
+        if(del){
+            return "Delete successfully"
+        }
     }
     catch(error){
         throw error
@@ -51,7 +57,7 @@ export async function listStocks(){
 
 export async function getById(id:string) {
     try{
-        const stock = await StockModel.findOne({id:id})
+        const stock = await StockModel.findOne({id:id}).exec()
         if(stock !=null){
             return stock
         }

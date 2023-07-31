@@ -14,6 +14,7 @@ export const list = async (req: Request, res: Response) => {
 
 export const getById = async(req:Request, res: Response)=>{
     try {
+        console.log("Stock id:"+req.params.id)
         const stock = await stocksServices.getById(req.params.id)
         res.status(200).send(stock)
     }
