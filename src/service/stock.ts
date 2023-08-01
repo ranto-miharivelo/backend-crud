@@ -17,7 +17,6 @@ export async function upsertStock(stock: IStock) {
             console.log("newStock")
             const newStock = await StockModel.create(stock)
             return newStock
-
         }
     }
     catch(error){
@@ -46,13 +45,33 @@ export async function listStocks(){
             return stocks
         }
         else{
-            return "Stocks list is empty"
+            throw new Error('Stock list is empty');
         }
     }
     catch(error){
         throw error
     }
       
+}
+
+
+export async function listAndPagingStocks({page, limit}:any){
+    try {
+        
+        const products = await StockModel.find()
+            .limit(limit * 1)
+            .skip((page - 1) * limit)
+            .sort({ createdAt: -1 })
+        const count = await StockModel.countDocuments();
+
+        return ({
+            products,
+            totalPages: Math.ceil(count / limit),
+            currentPage: page,
+        });
+    } catch (err) {
+        throw err;
+    }
 }
 
 export async function getById(id:string) {
@@ -63,7 +82,7 @@ export async function getById(id:string) {
         }
 
         else{
-            return "Stock not found"
+            throw new Error('Stock not found')
         }   
     }
     catch(error){

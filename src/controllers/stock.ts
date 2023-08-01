@@ -37,6 +37,7 @@ export const upsertStock = async (req: Request, res: Response)=>{
 export const deleteStock = async (req:Request, res: Response)=>{
     try{
         const deletedStock = await stocksServices.deleteStock(req.body)
+        res.status(200).send(deletedStock)
     }
     catch(error){
         return res.status(500).send(getErrorMessage(error));
