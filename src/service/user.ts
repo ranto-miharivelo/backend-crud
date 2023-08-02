@@ -11,6 +11,9 @@ export async function login(user: IUser) {
   try {
     console.log(user)
     const foundUser = await UserModel.findOne({ email: user.email });
+    if(!user.email || !user.password){
+      throw new Error('Password and mail are required')
+    }
     
     if (!foundUser) {
       throw new Error('Email is not correct');
